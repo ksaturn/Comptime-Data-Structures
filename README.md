@@ -4,7 +4,7 @@
 
 ## :baby_chick: Minimal implementations of compile-time data structures in Zig ver. 0.9.1.
 
-> :lizard: [Awesome Zig Learning](https://github.com/tensorush/Awesome-PL-Learning#zap-zig)
+> :lizard: [Awesome Zig Learning](https://github.com/tensorush/Awesome-PL-Learning#lizard-zig)
 
 ## :cityscape: [Data Structures](src/)
 
