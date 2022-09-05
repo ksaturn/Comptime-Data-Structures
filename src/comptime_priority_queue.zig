@@ -1,14 +1,5 @@
 const std = @import("std");
 
-/// Error set for the ComptimePriorityQueue.
-pub const ComptimePriorityQueueError = error{
-    /// Tried to update a non-existent item.
-    NoItem,
-
-    /// Tried to put into a full queue.
-    Full,
-};
-
 /// Priority queue for storing generic data.
 /// Asserts the capacity is greater than zero.
 /// Requires `compareFn` that returns `std.math.Order.lt` when its second
@@ -26,6 +17,14 @@ pub fn ComptimePriorityQueue(comptime T: type, comptime capacity: usize, comptim
         context: Context,
         len: usize = 0,
 
+        /// Error set for the ComptimePriorityQueue.
+        pub const Error = error{
+            /// Tried to update a non-existent item.
+            NoItem,
+            /// Tried to put into a full queue.
+            Full,
+        };
+
         /// Initialize with a context for item comparison.
         ///
         /// Returns:
@@ -39,8 +38,8 @@ pub fn ComptimePriorityQueue(comptime T: type, comptime capacity: usize, comptim
         /// Arguments:
         ///     item: Item to put into the queue.
         /// Returns:
-        ///     ComptimePriorityQueueError.Full if there was no free space.
-        pub fn put(self: *Self, item: T) ComptimePriorityQueueError!void {
+        ///     Error.Full if there was no free space.
+        pub fn put(self: *Self, item: T) Error!void {
             try self.ensureCapacity();
             self.items[self.len] = item;
             self.siftUp(self.len);
@@ -62,9 +61,9 @@ pub fn ComptimePriorityQueue(comptime T: type, comptime capacity: usize, comptim
         /// Check that there is space for at least one item.
         ///
         /// Returns:
-        ///     ComptimePriorityQueueError.Full if there was no free space.
-        pub fn ensureCapacity(self: Self) ComptimePriorityQueueError!void {
-            if (self.len == capacity) return ComptimePriorityQueueError.Full;
+        ///     Error.Full if there was no free space.
+        pub fn ensureCapacity(self: Self) Error!void {
+            if (self.len == capacity) return Error.Full;
         }
 
         /// Peek at the highest priority item in the queue.
@@ -101,13 +100,13 @@ pub fn ComptimePriorityQueue(comptime T: type, comptime capacity: usize, comptim
         ///     old_item: Item to update.
         ///     new_item: Item to update to.
         /// Returns:
-        ///     ComptimePriorityQueueError.NoItem if there was no old item found.
-        pub fn update(self: *Self, old_item: T, new_item: T) ComptimePriorityQueueError!void {
+        ///     Error.NoItem if there was no old item found.
+        pub fn update(self: *Self, old_item: T, new_item: T) Error!void {
             const old_item_idx = blk: {
                 for (self.items) |item, i| {
                     if (compareFn(self.context, item, old_item).compare(.eq)) break :blk i;
                 }
-                return ComptimePriorityQueueError.NoItem;
+                return Error.NoItem;
             };
             self.items[old_item_idx] = new_item;
             switch (compareFn(self.context, new_item, old_item)) {

@@ -1,3 +1,4 @@
 zig-cache/
 docs/src/
 zig-out/
+*.obj

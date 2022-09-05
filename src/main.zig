@@ -1,8 +1,6 @@
-const ccq = @import("comptime_circular_queue.zig");
-const cpq = @import("comptime_priority_queue.zig");
+pub const ComptimeCircularQueue = @import("comptime_circular_queue.zig").ComptimeCircularQueue;
+pub const ComptimePriorityQueue = @import("comptime_priority_queue.zig").ComptimePriorityQueue;
 
-pub const ComptimeCircularQueue = ccq.ComptimeCircularQueue;
-pub const ComptimeCircularQueueError = ccq.ComptimeCircularQueueError;
-
-pub const ComptimePriorityQueue = cpq.ComptimePriorityQueue;
-pub const ComptimePriorityQueueError = cpq.ComptimePriorityQueueError;
+test {
+    @import("std").testing.refAllDecls(@This());
+}

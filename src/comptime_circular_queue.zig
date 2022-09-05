@@ -1,11 +1,5 @@
 const std = @import("std");
 
-/// Error set for the ComptimeCircularQueue.
-pub const ComptimeCircularQueueError = error{
-    /// Tried to put into a full queue.
-    Full,
-};
-
 /// Circular queue backed by an array allocated at compile-time.
 /// Asserts the capacity is greater than zero.
 pub fn ComptimeCircularQueue(comptime T: type, comptime capacity: usize) type {
@@ -17,13 +11,19 @@ pub fn ComptimeCircularQueue(comptime T: type, comptime capacity: usize) type {
         pop_idx: usize = 0,
         put_idx: usize = 0,
 
+        /// Error set for the ComptimeCircularQueue.
+        pub const Error = error{
+            /// Tried to put into a full queue.
+            Full,
+        };
+
         /// Put item into the queue.
         ///
         /// Arguments:
         ///     item: Item to put into the queue.
         /// Returns:
-        ///     ComptimeCircularQueueError.Full if there was no free space.
-        pub fn put(self: *Self, item: T) ComptimeCircularQueueError!void {
+        ///     Error.Full if there was no free space.
+        pub fn put(self: *Self, item: T) Error!void {
             try self.ensureCapacity();
             self.put_idx = next(self.put_idx);
             self.item_opts[self.put_idx] = item;
@@ -43,9 +43,9 @@ pub fn ComptimeCircularQueue(comptime T: type, comptime capacity: usize) type {
         /// Check that there is space for at least one item.
         ///
         /// Returns:
-        ///     ComptimeCircularQueueError.Full if there was no free space.
-        pub fn ensureCapacity(self: Self) ComptimeCircularQueueError!void {
-            if (self.item_opts[next(self.put_idx)] != null) return ComptimeCircularQueueError.Full;
+        ///     Error.Full if there was no free space.
+        pub fn ensureCapacity(self: Self) Error!void {
+            if (self.item_opts[next(self.put_idx)] != null) return Error.Full;
         }
 
         /// Pop item from the queue.
@@ -154,7 +154,7 @@ test "ComptimeCircularQueue: put too many items" {
     for (values) |value| {
         try queue.put(value);
     }
-    try std.testing.expectError(ComptimeCircularQueueError.Full, queue.put(333));
+    try std.testing.expectError(@TypeOf(queue).Error.Full, queue.put(333));
 }
 
 test "ComptimeCircularQueue: pop too many items" {
@@ -208,7 +208,7 @@ test "ComptimeCircularQueue: circle back" {
     try std.testing.expect(2 == queue.len());
     try queue.put(4);
     try std.testing.expect(3 == queue.len());
-    try std.testing.expectError(ComptimeCircularQueueError.Full, queue.put(100));
+    try std.testing.expectError(@TypeOf(queue).Error.Full, queue.put(100));
     try std.testing.expect(3 == queue.len());
     try std.testing.expect(2 == queue.popOrNull());
     try std.testing.expect(2 == queue.len());
