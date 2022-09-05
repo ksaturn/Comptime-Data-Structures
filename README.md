@@ -2,11 +2,10 @@
 
 [![CI][ci-shield]][ci-url]
 [![License][license-shield]][license-url]
-
-## :baby_chick: Minimal implementations of compile-time data structures.
-
 [![Autodocs][autodocs-shield]][autodocs-url]
 [![Resources][resources-shield]][resources-url]
+
+## :baby_chick: Minimal implementations of compile-time data structures.
 
 ## :cityscape: [Data Structures](src/)
 
@@ -22,5 +21,5 @@
 [autodocs-url]: https://tensorush.github.io/Comptime-Data-Structures/#root
 [resources-shield]: https://img.shields.io/badge/click_to_learn-F6A516?style=for-the-badge&logo=zig&logoColor=F6A516&label=resources&labelColor=black
 [resources-url]: https://github.com/tensorush/Awesome-PL-Learning#lizard-zig
-[license-shield]: https://img.shields.io/github/license/tensorush/Comptime-Data-Structures.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/tensorush/Comptime-Data-Structures.svg?style=for-the-badge&labelColor=black
 [license-url]: https://github.com/tensorush/Comptime-Data-Structures/blob/master/LICENSE
