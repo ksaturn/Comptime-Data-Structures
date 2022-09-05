@@ -1,9 +1,9 @@
 # :zap: :lotus_position: **Comptime Data Structures**
 
 [![CI][ci-shield]][ci-url]
-[![License][license-shield]][license-url]
 [![Autodocs][autodocs-shield]][autodocs-url]
 [![Resources][resources-shield]][resources-url]
+[![License][license-shield]][license-url]
 
 ## :baby_chick: Minimal implementations of compile-time data structures.
 
